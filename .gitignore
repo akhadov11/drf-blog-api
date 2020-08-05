@@ -1,0 +1,12 @@
+*.pyc
+*.map
+*.mo
+.idea/*
+.python-version
+.pylint.d
+profile.svg
+docker-compose.override.yml
+venv
+Pipfile
+Pipfile.lock
+__pycache__

@@ -1,0 +1,40 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    env_file:
+      - .env
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/src
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+  redis:
+    image: redis
+    restart: always
+    container_name: 'app_redis'
+    command: redis-server
+    ports:
+      - '6379:6379'
+  celery:
+    build: .
+    container_name: 'celery'
+    command: celery -A blog worker -B
+    volumes:
+      - .:/src
+    links:
+      - redis
+    depends_on:
+      - web
+      - redis
+      - db
+    env_file:
+      - .env
