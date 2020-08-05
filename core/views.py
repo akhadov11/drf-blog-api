@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework import views, status
 from rest_framework.response import Response
 
@@ -28,6 +28,8 @@ class UpvotePostView(views.APIView):
     """
         Upvoting posts.
     """
+
+    permission_classes = [permissions.IsAuthenticated, ]
 
     def post(self, request, pk):
         post = Post.objects.get(id=pk)
